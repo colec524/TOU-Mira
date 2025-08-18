@@ -95,7 +95,7 @@ public sealed class SniperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsR
 
         if (sniperOpts.RevealSniper)
         {
-            TouAudio.PlaySound(TouAudio.SniperShotSound);
+            TouAudio.PlaySound(TouAudio.GrenadeSound);
         }
 
         if (role.ShotsRemaining <= 0)
