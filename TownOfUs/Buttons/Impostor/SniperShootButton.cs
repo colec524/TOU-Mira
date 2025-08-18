@@ -63,17 +63,14 @@ public sealed class SniperShootButton : TownOfUsRoleButton<SniperRole, PlayerCon
             return;
         }
 
-        // begin effect window (full vision + no movement) for duration, then go on cooldown
-        // grant full vision during aim window
-        VisionPatch.NerfMe = false; // ensure no nerf during aiming window
+        // begin effect window (full vision incl. through walls + no movement) for duration, then go on cooldown
+        VisionPatch.NerfMe = false;
+        PlayerControl.LocalPlayer.gameObject.layer = LayerMask.NameToLayer("Ghost");
 
         OnClick();
         Button?.SetDisabled();
         EffectActive = true;
         Timer = EffectDuration;
-
-        // schedule restore of vision when effect ends via coroutine-like UpdateHandler in base
-        Coroutines.Start(MiscUtils.PerformTimedAction(EffectDuration, _ => { }));
     }
 
     public override void OnEffectEnd()
@@ -81,6 +78,7 @@ public sealed class SniperShootButton : TownOfUsRoleButton<SniperRole, PlayerCon
         base.OnEffectEnd();
         // restore after aiming period ends
         VisionPatch.NerfMe = false;
+        PlayerControl.LocalPlayer.gameObject.layer = LayerMask.NameToLayer("Players");
         Timer = Cooldown;
     }
 
@@ -132,4 +130,3 @@ public sealed class SniperShootButton : TownOfUsRoleButton<SniperRole, PlayerCon
 
     // no camera helpers; strictly use main view bounds
 }
-
