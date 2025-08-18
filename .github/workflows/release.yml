@@ -1,0 +1,40 @@
+name: Build and Release (Steam)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore TownOfUs-Mira.sln
+
+      - name: Build
+        run: dotnet build TownOfUs-Mira.sln -c Release --no-restore
+
+      - name: Package
+        run: |
+          mkdir -p artifact
+          find TownOfUs/bin -type f -name 'TownOfUs.dll' -print -exec cp {} artifact/ \;
+          cd artifact
+          zip -r TownOfUs-Mira-Steam.zip .
+        shell: bash
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifact/TownOfUs-Mira-Steam.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

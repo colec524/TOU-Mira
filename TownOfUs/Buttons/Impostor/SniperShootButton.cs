@@ -19,7 +19,7 @@ public sealed class SniperShootButton : TownOfUsRoleButton<SniperRole, PlayerCon
     public override float Cooldown => OptionGroupSingleton<SniperOptions>.Instance.ShootCooldown + MapCooldown;
     public override float EffectDuration => OptionGroupSingleton<SniperOptions>.Instance.AimDuration;
     public override int MaxUses => OptionGroupSingleton<SniperOptions>.Instance.MaxShots;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.SnipeSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
 
     public bool Usable { get; set; } = true;
 
