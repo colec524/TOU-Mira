@@ -63,6 +63,7 @@ public sealed class SniperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsR
         ShotsRemaining = sniperOpts.MaxShots;
         Cooldown = sniperOpts.ShootCooldown;
         CustomButtonSingleton<SniperShootButton>.Instance.SetActive(true, this);
+        // no permanent changes here; full vision is handled per-effect window
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)

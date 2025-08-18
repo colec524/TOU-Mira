@@ -17,6 +17,7 @@ public sealed class SniperShootButton : TownOfUsRoleButton<SniperRole, PlayerCon
     public override string Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => OptionGroupSingleton<SniperOptions>.Instance.ShootCooldown + MapCooldown;
+    public override float EffectDuration => OptionGroupSingleton<SniperOptions>.Instance.AimDuration;
     public override int MaxUses => OptionGroupSingleton<SniperOptions>.Instance.MaxShots;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.SnipeSprite;
 
@@ -49,7 +50,38 @@ public sealed class SniperShootButton : TownOfUsRoleButton<SniperRole, PlayerCon
             return;
         }
 
+        // cannot move while ability is active
+        PlayerControl.LocalPlayer.NetTransform.Halt();
+
         SniperRole.RpcSniperShot(PlayerControl.LocalPlayer, Target);
+    }
+
+    public override void ClickHandler()
+    {
+        if (!CanClick())
+        {
+            return;
+        }
+
+        // begin effect window (full vision + no movement) for duration, then go on cooldown
+        // grant full vision during aim window
+        VisionPatch.NerfMe = false; // ensure no nerf during aiming window
+
+        OnClick();
+        Button?.SetDisabled();
+        EffectActive = true;
+        Timer = EffectDuration;
+
+        // schedule restore of vision when effect ends via coroutine-like UpdateHandler in base
+        Coroutines.Start(MiscUtils.PerformTimedAction(EffectDuration, _ => { }));
+    }
+
+    public override void OnEffectEnd()
+    {
+        base.OnEffectEnd();
+        // restore after aiming period ends
+        VisionPatch.NerfMe = false;
+        Timer = Cooldown;
     }
 
     public override PlayerControl? GetTarget()

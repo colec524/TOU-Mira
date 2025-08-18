@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
@@ -6,6 +6,7 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -33,6 +34,13 @@ public static class VisionPatch
             visionFactor = mod.VisionPerc;
         }
 
+
+        // Sniper: full vision while the aim ability is active
+        if (player._object.Data.Role is SniperRole && CustomButtonSingleton<TownOfUs.Buttons.Impostor.SniperShootButton>.Instance.EffectActive)
+        {
+            __result = __instance.MaxLightRadius;
+            return;
+        }
 
         if (player.Role.IsImpostor || (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision))
         {

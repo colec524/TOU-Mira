@@ -17,5 +17,8 @@ public sealed class SniperOptions : AbstractOptionGroup<SniperRole>
 
     [ModdedToggleOption("Reveal Sniper Audio")]
     public bool RevealSniper { get; set; } = true;
+
+    [ModdedNumberOption("Aim Duration", 2f, 10f, 1f, MiraNumberSuffixes.Seconds)]
+    public float AimDuration { get; set; } = 5f;
 }
 
