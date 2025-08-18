@@ -112,6 +112,9 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
         new LoadableAudioResourceAsset($"{AudioPath}.JanitorClean.wav");
 
+    public static LoadableAsset<AudioClip> SniperShotSound { get; } =
+        new LoadableAudioResourceAsset($"{AudioPath}.SniperShot.wav");
+
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
         if (Constants.ShouldPlaySfx())
