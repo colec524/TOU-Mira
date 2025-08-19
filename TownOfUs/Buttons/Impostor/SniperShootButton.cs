@@ -1,6 +1,9 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
 using TownOfUs.Assets;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Impostor;

@@ -4,7 +4,9 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Utilities;
 using MiraAPI.Roles;
+using MiraAPI.Networking;
 using Reactor.Networking.Attributes;
 using TownOfUs.Assets;
 using TownOfUs.Buttons.Impostor;
@@ -100,10 +102,9 @@ public sealed class SniperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsR
         if (role.ShotsRemaining <= 0)
         {
             CustomButtonSingleton<SniperShootButton>.Instance.SetUses(0);
-            CustomButtonSingleton<SniperShootButton>.Instance.SetEnabled(false);
+            CustomButtonSingleton<SniperShootButton>.Instance.Button?.SetDisabled();
         }
 
         CustomButtonSingleton<SniperShootButton>.Instance.SetTimer(role.Cooldown);
     }
 }
-
