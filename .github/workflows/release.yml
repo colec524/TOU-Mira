@@ -11,9 +11,9 @@ jobs:
 
     env:
       BEPINEX_URL: https://github.com/BepInEx/BepInEx/releases/download/v6.0.0-be.2024.04.28/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.2024.04.28.zip
-      # TODO: replace with your exact Reactor/MiraAPI IL2CPP links or vendor DLLs in repo
+      # TODO: replace REACTOR_URL with your Reactor IL2CPP link or vendor the DLL
       REACTOR_URL: https://example.com/Reactor-IL2CPP.dll
-      MIRA_URL: https://example.com/MiraAPI-IL2CPP.dll
+      MIRA_URL: https://github.com/All-Of-Us-Mods/MiraAPI/releases/download/0.2.1/MiraAPI.dll
 
     steps:
       - name: Checkout
