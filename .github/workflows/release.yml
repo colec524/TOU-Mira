@@ -23,12 +23,14 @@ jobs:
       - name: Build
         run: dotnet build TownOfUs-Mira.sln -c Release --no-restore
 
-      - name: Package
+      - name: Package (Steam drop-in structure)
         run: |
-          mkdir -p artifact
-          find TownOfUs/bin -type f -name 'TownOfUs.dll' -print -exec cp {} artifact/ \;
+          mkdir -p artifact/BepInEx/plugins
+          DLL_PATH=$(find TownOfUs/bin -type f -name 'TownOfUs.dll' | head -n 1)
+          if [ -z "$DLL_PATH" ]; then echo "TownOfUs.dll not found"; exit 1; fi
+          cp "$DLL_PATH" artifact/BepInEx/plugins/TownOfUs.dll
           cd artifact
-          zip -r TownOfUs-Mira-Steam.zip .
+          zip -r TownOfUs-Mira-Steam.zip BepInEx
         shell: bash
 
       - name: Upload Release Asset
